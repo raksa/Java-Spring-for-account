@@ -1,4 +1,4 @@
-package com.hellokoding.account.model;
+package net.k4us.account.model;
 
 
 import javax.persistence.*;

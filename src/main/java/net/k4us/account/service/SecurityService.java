@@ -1,4 +1,4 @@
-package com.hellokoding.account.service;
+package net.k4us.account.service;
 
 public interface SecurityService {
     String findLoggedInUsername();

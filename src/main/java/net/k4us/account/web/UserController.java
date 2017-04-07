@@ -1,9 +1,10 @@
-package com.hellokoding.account.web;
+package net.k4us.account.web;
 
-import com.hellokoding.account.model.User;
-import com.hellokoding.account.service.SecurityService;
-import com.hellokoding.account.service.UserService;
-import com.hellokoding.account.validator.UserValidator;
+import net.k4us.account.model.User;
+import net.k4us.account.service.SecurityService;
+import net.k4us.account.service.UserService;
+import net.k4us.account.validator.UserValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

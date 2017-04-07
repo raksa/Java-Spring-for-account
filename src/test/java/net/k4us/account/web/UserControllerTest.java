@@ -1,4 +1,4 @@
-package com.hellokoding.account.web;
+package net.k4us.account.web;
 
 import static org.junit.Assert.*;
 

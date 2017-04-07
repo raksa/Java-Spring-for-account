@@ -1,6 +1,6 @@
-package com.hellokoding.account.service;
+package net.k4us.account.service;
 
-import com.hellokoding.account.model.User;
+import net.k4us.account.model.User;
 
 public interface UserService {
     void save(User user);

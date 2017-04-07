@@ -1,8 +1,9 @@
-package com.hellokoding.account.service;
+package net.k4us.account.service;
 
-import com.hellokoding.account.model.User;
-import com.hellokoding.account.repository.RoleRepository;
-import com.hellokoding.account.repository.UserRepository;
+import net.k4us.account.model.User;
+import net.k4us.account.repository.RoleRepository;
+import net.k4us.account.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
