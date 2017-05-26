@@ -13,11 +13,22 @@
 - JSP
 - MySQL
 
-## Run
-```mvn jetty:run```
+## Call for Database
+* create database `accounts`
+* create user `account` with password `account` grain access database `accounts`
+* run maven phase to auto generate database
+```
+$ mvn generate-sources
+```
+
+
 
 ## Test
-```mvn test```
+```
+$ mvn test
+```
 
 ## Build war
-```mvn package```
+```
+$ mvn package
+```
