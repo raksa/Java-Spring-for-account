@@ -96,64 +96,6 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.0.1</version>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.5</version>
-				<dependencies>
-					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>6.0.6</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<driver>com.mysql.jdbc.Driver</driver>
-					<url>jdbc:mysql://localhost:3306/accounts_test</url>
-					<username>account</username>
-					<password>account</password>
-				</configuration>
-				<executions>
-					<execution>
-						<id>drop-table</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<srcFiles>
-								<include>${dir.database}\drop_schema.sql</include>
-							</srcFiles>
-						</configuration>
-					</execution>
-					<execution>
-						<id>create-table</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<srcFiles>
-								<include>${dir.database}\create_schema.sql</include>
-							</srcFiles>
-						</configuration>
-					</execution>
-					<execution>
-						<id>insert-data</id>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<srcFiles>
-								<include>${dir.database}\account_data.sql</include>
-							</srcFiles>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 </project>

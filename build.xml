@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="account" default="usage">
+    <property file="${basedir}/ant.properties"/>
+    <property name="database.dir" value="${basedir}/databases" />
+    <target name="usage">
+        <echo message="$ ant db_oracle #recreate oracle database" />
+        <echo message="$ ant db_mysql #recreate mysql database" />
+    </target>
+    <target name="db_oracle_drop_user">
+        <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true">
+            <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
+            <arg value="@${database.dir}/drop_user.oracle.sql"/>
+        </exec>
+    </target>
+    <target name="db_oracle_create_user">
+        <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true">
+            <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
+            <arg value="@${database.dir}/create_user.oracle.sql"/>
+        </exec>
+    </target>
+    <target name="db_oracle_create_schema">
+        <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true">
+            <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
+            <arg value="@${database.dir}/create_schema.oracle.sql"/>
+        </exec>
+    </target>
+    <target name="db_oracle_load_data">
+        <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true" failifexecutionfails="true">
+            <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
+            <arg value="@${database.dir}/load_data.oracle.sql"/>
+        </exec>
+    </target>
+    <target name="db_oracle" depends="db_oracle_create_schema, db_oracle_load_data" />
+    <target name="db_oracle_all" depends="db_oracle_drop_user, db_oracle_create_user, db_oracle" />
+    <target name="db_mysql_drop_schema">
+        <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
+            <arg value="--user=${mysql.username}"></arg>
+            <arg value="--password=${mysql.password}"></arg>
+            <arg value="--database=${mysql.dbname}"></arg>
+            <arg value="--execute=source ${database.dir}/drop_schema.sql"></arg>
+        </exec>
+    </target>
+    <target name="db_mysql_create_schema">
+        <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
+            <arg value="--user=${mysql.username}"></arg>
+            <arg value="--password=${mysql.password}"></arg>
+            <arg value="--database=${mysql.dbname}"></arg>
+            <arg value="--execute=source ${database.dir}/create_schema.sql"></arg>
+        </exec>
+    </target>
+    <target name="db_mysql_load_data">
+        <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
+            <arg value="--user=${mysql.username}"></arg>
+            <arg value="--password=${mysql.password}"></arg>
+            <arg value="--database=${mysql.dbname}"></arg>
+            <arg value="--execute=source ${database.dir}/load_data.sql"></arg>
+        </exec>
+    </target>
+    <target name="db_mysql" depends="db_mysql_drop_schema, db_mysql_create_schema, db_mysql_load_data" />
+</project>

@@ -4,6 +4,7 @@
 - JDK 1.8 or later
 - Maven 3 or later
 - MySQL 5.6 or later
+- Oracle XE 11g (TODO)
 
 ## Stack
 - Spring MVC
@@ -13,15 +14,22 @@
 - JSP
 - MySQL
 
-## Call for Database
+## Call for Database MySQL
 * create database `accounts`
-* create user `account` with password `account` grain access database `accounts`
-* run maven phase to auto generate database
+* create user `account` with password `account` grant access database `accounts`
+* run ant task to auto generate database
 ```
-$ mvn generate-sources
+$ ant db_mysql
 ```
-
-
+## Call for Database Oracle XE (TODO)
+* run ant task to auto generate database with new user
+```
+$ ant db_oracle_all
+```
+* run ant task to auto generate database with existing user(account/account)
+```
+$ ant db_oracle
+```
 
 ## Test
 ```
@@ -32,3 +40,7 @@ $ mvn test
 ```
 $ mvn package
 ```
+
+Others
+-----------------------
+* welcome for any help

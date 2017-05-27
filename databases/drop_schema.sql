@@ -2,8 +2,16 @@
 -- Drop all tables
 --
 
-DROP TABLE IF EXISTS `user_role`;
+SET FOREIGN_KEY_CHECKS = 0;
+SET GROUP_CONCAT_MAX_LEN=32768;
+SET @tables = NULL;
+SELECT GROUP_CONCAT('`', table_name, '`') INTO @tables
+  FROM information_schema.tables
+  WHERE table_schema = 'accounts';
+SELECT IFNULL(@tables,'dummy') INTO @tables;
 
-DROP TABLE IF EXISTS `role`;
-
-DROP TABLE IF EXISTS `user`;
+SET @tables = CONCAT('DROP TABLE IF EXISTS ', @tables);
+PREPARE stmt FROM @tables;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET FOREIGN_KEY_CHECKS = 1;
