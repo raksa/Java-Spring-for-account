@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_account")
 public class User {
     private Long id;
     private String username;

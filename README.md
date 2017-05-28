@@ -15,9 +15,11 @@
 - MySQL
 
 ## Call for Database MySQL
-* create database `accounts`
-* create user `account` with password `account` grant access database `accounts`
-* run ant task to auto generate database
+* run ant task to auto generate database with new user and database
+```
+$ ant db_mysql_all
+```
+* run ant task to auto generate database with existing user(account/account) database(accounts)
 ```
 $ ant db_mysql
 ```

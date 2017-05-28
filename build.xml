@@ -32,29 +32,37 @@
     </target>
     <target name="db_oracle" depends="db_oracle_create_schema, db_oracle_load_data" />
     <target name="db_oracle_all" depends="db_oracle_drop_user, db_oracle_create_user, db_oracle" />
-    <target name="db_mysql_drop_schema">
+
+    <target name="db_mysql_drop_user">
         <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
-            <arg value="--user=${mysql.username}"></arg>
-            <arg value="--password=${mysql.password}"></arg>
-            <arg value="--database=${mysql.dbname}"></arg>
-            <arg value="--execute=source ${database.dir}/drop_schema.sql"></arg>
+            <arg value="--user=${mysql.admin.username}"></arg>
+            <arg value="--password=${mysql.admin.password}"></arg>
+            <arg value="--execute=source ${database.dir}/drop_user_database.sql"></arg>
+        </exec>
+    </target>
+    <target name="db_mysql_create_user">
+        <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
+            <arg value="--user=${mysql.admin.username}"></arg>
+            <arg value="--password=${mysql.admin.password}"></arg>
+            <arg value="--execute=source ${database.dir}/create_user_database.sql"></arg>
         </exec>
     </target>
     <target name="db_mysql_create_schema">
         <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
-            <arg value="--user=${mysql.username}"></arg>
-            <arg value="--password=${mysql.password}"></arg>
+            <arg value="--user=${mysql.admin.username}"></arg>
+            <arg value="--password=${mysql.admin.password}"></arg>
             <arg value="--database=${mysql.dbname}"></arg>
             <arg value="--execute=source ${database.dir}/create_schema.sql"></arg>
         </exec>
     </target>
     <target name="db_mysql_load_data">
         <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
-            <arg value="--user=${mysql.username}"></arg>
-            <arg value="--password=${mysql.password}"></arg>
+            <arg value="--user=${mysql.admin.username}"></arg>
+            <arg value="--password=${mysql.admin.password}"></arg>
             <arg value="--database=${mysql.dbname}"></arg>
             <arg value="--execute=source ${database.dir}/load_data.sql"></arg>
         </exec>
     </target>
-    <target name="db_mysql" depends="db_mysql_drop_schema, db_mysql_create_schema, db_mysql_load_data" />
+    <target name="db_mysql" depends="db_mysql_create_schema, db_mysql_load_data" />
+    <target name="db_mysql_all" depends="db_mysql_drop_user, db_mysql_create_user, db_mysql" />
 </project>
