@@ -11,7 +11,13 @@ public class Role {
     private Set<User> users;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+//    Enable here for MySQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
+//    Enable here for Oracle XE
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROLE_SEQ")
+//    @SequenceGenerator(name = "ROLE_SEQ", sequenceName = "ROLE_SEQ", allocationSize = 1, initialValue = 1)
     public Long getId() {
         return id;
     }

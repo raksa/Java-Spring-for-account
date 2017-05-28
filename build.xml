@@ -1,68 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="account" default="usage">
+    <!-- To upper case -->
+    <scriptdef language="javascript" name="upper">
+        <attribute name="string" /> 
+        <attribute name="to" />
+        project.setProperty(attributes.get("to"),attributes.get("string").toUpperCase());
+    </scriptdef>
     <property file="${basedir}/ant.properties"/>
+    <property file="${basedir}/src/main/resources/application.properties"/>
     <property name="database.dir" value="${basedir}/databases" />
     <target name="usage">
         <echo message="$ ant db_oracle #recreate oracle database" />
         <echo message="$ ant db_mysql #recreate mysql database" />
     </target>
-    <target name="db_oracle_drop_user">
+    <target name="gen_db_oracle_drop_user">
+        <upper string="${jdbc.oracle.username}" to="jdbc.oracle.username.upper" />
+        <copy file="${database.dir}/drop_user.oracle.sql" tofile="${database.dir}/gen_drop_user.oracle.sql"
+            overwrite="yes" filtering="yes">
+            <filterset>
+                <filter token="jdbc.oracle.username" value="${jdbc.oracle.username.upper}"/>
+			</filterset>
+        </copy>
+    </target>
+    <target name="db_oracle_drop_user" depends="gen_db_oracle_drop_user">
         <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true">
             <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
-            <arg value="@${database.dir}/drop_user.oracle.sql"/>
+            <arg value="@${database.dir}/gen_drop_user.oracle.sql"/>
         </exec>
     </target>
-    <target name="db_oracle_create_user">
+    <target name="gen_db_oracle_create_user">
+        <upper string="${jdbc.oracle.username}" to="jdbc.oracle.username.upper" />
+        <copy file="${database.dir}/create_user.oracle.sql" tofile="${database.dir}/gen_create_user.oracle.sql"
+            overwrite="yes" filtering="yes">
+            <filterset>
+                <filter token="jdbc.oracle.username" value="${jdbc.oracle.username.upper}"/>
+                <filter token="jdbc.oracle.password" value="${jdbc.oracle.password}"/>
+			</filterset>
+        </copy>
+    </target>
+    <target name="db_oracle_create_user" depends="gen_db_oracle_create_user">
         <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true">
             <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
-            <arg value="@${database.dir}/create_user.oracle.sql"/>
+            <arg value="@${database.dir}/gen_create_user.oracle.sql"/>
         </exec>
     </target>
-    <target name="db_oracle_create_schema">
+    <target name="gen_db_oracle_create_schema">
+        <upper string="${jdbc.oracle.username}" to="jdbc.oracle.username.upper" />
+        <copy file="${database.dir}/create_schema.oracle.sql" tofile="${database.dir}/gen_create_schema.oracle.sql"
+            overwrite="yes" filtering="yes">
+            <filterset>
+                <filter token="jdbc.oracle.username" value="${jdbc.oracle.username.upper}"/>
+			</filterset>
+        </copy>
+    </target>
+    <target name="db_oracle_create_schema" depends="gen_db_oracle_create_schema">
         <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true">
-            <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
-            <arg value="@${database.dir}/create_schema.oracle.sql"/>
+            <arg value="${jdbc.oracle.username}/${jdbc.oracle.password}"/>
+            <arg value="@${database.dir}/gen_create_schema.oracle.sql"/>
         </exec>
     </target>
-    <target name="db_oracle_load_data">
+    <target name="gen_db_oracle_load_data">
+        <upper string="${jdbc.oracle.username}" to="jdbc.oracle.username.upper" />
+        <copy file="${database.dir}/load_data.oracle.sql" tofile="${database.dir}/gen_load_data.oracle.sql"
+            overwrite="yes" filtering="yes">
+            <filterset>
+                <filter token="jdbc.oracle.username" value="${jdbc.oracle.username.upper}"/>
+			</filterset>
+        </copy>
+    </target>
+    <target name="db_oracle_load_data" depends="gen_db_oracle_load_data">
         <exec executable="${oracle.bin.dir}/sqlplus" failonerror="true" failifexecutionfails="true">
-            <arg value="${oracle.admin.username}/${oracle.admin.password}"/>
-            <arg value="@${database.dir}/load_data.oracle.sql"/>
+            <arg value="${jdbc.oracle.username}/${jdbc.oracle.password}"/>
+            <arg value="@${database.dir}/gen_load_data.oracle.sql"/>
         </exec>
     </target>
+    <target name="db_oracle_user" depends="db_oracle_drop_user, db_oracle_create_user" />
     <target name="db_oracle" depends="db_oracle_create_schema, db_oracle_load_data" />
-    <target name="db_oracle_all" depends="db_oracle_drop_user, db_oracle_create_user, db_oracle" />
+    <target name="db_oracle_all" depends="db_oracle_user, db_oracle" />
 
-    <target name="db_mysql_drop_user">
+    <target name="gen_db_mysql_drop_user">
+        <copy file="${database.dir}/drop_user_database.sql" tofile="${database.dir}/gen_drop_user_database.sql"
+            overwrite="yes" filtering="yes">
+            <filterset>
+                <filter token="jdbc.mysql.username" value="${jdbc.mysql.username}"/>
+                <filter token="jdbc.host" value="${jdbc.host}"/>
+                <filter token="jdbc.mysql.dbname" value="${jdbc.mysql.dbname}"/>
+			</filterset>
+        </copy>
+    </target>
+    <target name="db_mysql_drop_user" depends="gen_db_mysql_drop_user">
         <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
             <arg value="--user=${mysql.admin.username}"></arg>
             <arg value="--password=${mysql.admin.password}"></arg>
-            <arg value="--execute=source ${database.dir}/drop_user_database.sql"></arg>
+            <arg value="--execute=source ${database.dir}/gen_drop_user_database.sql"></arg>
         </exec>
     </target>
-    <target name="db_mysql_create_user">
+    <target name="gen_db_mysql_create_user">
+        <copy file="${database.dir}/create_user_database.sql" tofile="${database.dir}/gen_create_user_database.sql"
+            overwrite="yes" filtering="yes">
+            <filterset>
+                <filter token="jdbc.mysql.username" value="${jdbc.mysql.username}"/>
+                <filter token="jdbc.mysql.password" value="${jdbc.mysql.password}"/>
+                <filter token="jdbc.host" value="${jdbc.host}"/>
+                <filter token="jdbc.mysql.dbname" value="${jdbc.mysql.dbname}"/>
+			</filterset>
+        </copy>
+    </target>
+    <target name="db_mysql_create_user" depends="gen_db_mysql_create_user">
         <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
             <arg value="--user=${mysql.admin.username}"></arg>
             <arg value="--password=${mysql.admin.password}"></arg>
-            <arg value="--execute=source ${database.dir}/create_user_database.sql"></arg>
+            <arg value="--execute=source ${database.dir}/gen_create_user_database.sql"></arg>
         </exec>
     </target>
     <target name="db_mysql_create_schema">
         <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
-            <arg value="--user=${mysql.admin.username}"></arg>
-            <arg value="--password=${mysql.admin.password}"></arg>
-            <arg value="--database=${mysql.dbname}"></arg>
+            <arg value="--user=${jdbc.mysql.username}"></arg>
+            <arg value="--password=${jdbc.mysql.password}"></arg>
+            <arg value="--database=${jdbc.mysql.dbname}"></arg>
             <arg value="--execute=source ${database.dir}/create_schema.sql"></arg>
         </exec>
     </target>
     <target name="db_mysql_load_data">
         <exec executable="${mysql.bin.dir}/mysql" failonerror="true">
-            <arg value="--user=${mysql.admin.username}"></arg>
-            <arg value="--password=${mysql.admin.password}"></arg>
-            <arg value="--database=${mysql.dbname}"></arg>
+            <arg value="--user=${jdbc.mysql.username}"></arg>
+            <arg value="--password=${jdbc.mysql.password}"></arg>
+            <arg value="--database=${jdbc.mysql.dbname}"></arg>
             <arg value="--execute=source ${database.dir}/load_data.sql"></arg>
         </exec>
     </target>
+    <target name="db_mysql_user" depends="db_mysql_drop_user, db_mysql_create_user" />
     <target name="db_mysql" depends="db_mysql_create_schema, db_mysql_load_data" />
-    <target name="db_mysql_all" depends="db_mysql_drop_user, db_mysql_create_user, db_mysql" />
+    <target name="db_mysql_all" depends="db_mysql_user, db_mysql" />
 </project>

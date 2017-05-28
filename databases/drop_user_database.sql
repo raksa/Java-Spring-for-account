@@ -1,2 +1,2 @@
-DROP USER 'account'@'localhost';
-DROP DATABASE `accounts`;
+DROP USER '@jdbc.mysql.username@'@'@jdbc.host@';
+DROP DATABASE `@jdbc.mysql.dbname@`;
