@@ -3,3 +3,10 @@ jdk:
   - oraclejdk8
 sudo: false
 script: mvn clean verify
+
+notifications:
+  email:
+    recipients:
+      - eng.raksa@gmail.com
+    on_success: never # default: change
+    on_failure: never # default: always
