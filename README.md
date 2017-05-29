@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/raksa/account.svg?branch=master)](https://travis-ci.org/raksa/account)
+
 # Account management with Spring and MySQL or Oracle XE
 MySQL is default database, 
 
