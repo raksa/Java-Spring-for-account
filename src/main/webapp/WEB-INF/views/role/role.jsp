@@ -1,4 +1,3 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -13,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Welcome</title>
+<title>Role</title>
 
 <link href="${contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -27,21 +26,9 @@
 <body>
 	<div class="container">
 
-		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<form id="logoutForm" method="POST" action="${contextPath}/logout">
-				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" />
-			</form>
-
-			<h2>
-				Welcome ${pageContext.request.userPrincipal.name} | <a
-					onclick="document.forms['logoutForm'].submit()">Logout</a>
-			</h2>
-			
-			<h2>
-				<a class="btn btn-default" href="roles">Roles</a>
-			</h2>
-
+		<c:if test="${role != null}">
+			id: ${role.id}<br>
+			role_name: ${role.name}
 		</c:if>
 
 	</div>

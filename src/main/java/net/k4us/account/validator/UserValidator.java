@@ -20,15 +20,16 @@ public class UserValidator implements Validator {
 	}
 
 	@Override
-//	TODO: make better validate
+	// TODO: make better validate
 	public void validate(Object o, Errors errors) {
 		User user = (User) o;
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-		
-//		if (user.getUsername().length() < 1 || user.getUsername().length() > 32) {
-//			errors.rejectValue("username", "Size.userForm.username");
-//		}
+
+		// if (user.getUsername().length() < 1 || user.getUsername().length() >
+		// 32) {
+		// errors.rejectValue("username", "Size.userForm.username");
+		// }
 
 		if (userService.findByUsername(user.getUsername()) != null) {
 			errors.rejectValue("username", "Duplicate.userForm.username");
@@ -36,22 +37,24 @@ public class UserValidator implements Validator {
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
 
-//		if (!isValidEmailAddress(user.getEmail())) {
-//			errors.rejectValue("email", "Valid.userForm.email");
-//		}
+		// if (!isValidEmailAddress(user.getEmail())) {
+		// errors.rejectValue("email", "Valid.userForm.email");
+		// }
 
-//		if (userService.findByEmail(user.getEmail()) != null) {
-//			errors.rejectValue("email", "Duplicate.userForm.email");
-//		}
+		// if (userService.findByEmail(user.getEmail()) != null) {
+		// errors.rejectValue("email", "Duplicate.userForm.email");
+		// }
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-//		if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-//			errors.rejectValue("password", "Size.userForm.password");
-//		}
+		// if (user.getPassword().length() < 8 || user.getPassword().length() >
+		// 32) {
+		// errors.rejectValue("password", "Size.userForm.password");
+		// }
 
-//		if (!user.getPasswordConfirm().equals(user.getPassword())) {
-//			errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
-//		}
+		// if (!user.getPasswordConfirm().equals(user.getPassword())) {
+		// errors.rejectValue("passwordConfirm",
+		// "Diff.userForm.passwordConfirm");
+		// }
 	}
 
 	private boolean isValidEmailAddress(String email) {
