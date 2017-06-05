@@ -1,4 +1,4 @@
-package net.k4us.account.web;
+package net.k4us.account.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

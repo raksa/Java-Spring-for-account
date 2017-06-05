@@ -1,4 +1,4 @@
-package net.k4us.account.web;
+package net.k4us.account.controller;
 
 import net.k4us.account.model.User;
 import net.k4us.account.service.SecurityService;
