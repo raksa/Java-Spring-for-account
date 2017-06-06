@@ -1,7 +1,9 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns="http://www.springframework.org/schema/beans"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/beans
- http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+		http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<mvc:annotation-driven />
 
@@ -12,8 +14,10 @@
 		<property name="basenames">
 			<list>
 				<value>classpath:validation</value>
+				<value>classpath:messages</value>
 			</list>
 		</property>
+		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
 
 	<bean
@@ -25,4 +29,17 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="en" />
+		<property name="cookieName" value="accountLocaleCookie" />
+		<property name="cookieMaxAge" value="31536000" /> <!-- 60*60*365: 1 year age of cookie -->
+	</bean>
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="locale" />
+		</bean>
+	</mvc:interceptors>
 </beans>

@@ -27,6 +27,14 @@
 <body>
 	<div class="container">
 
+		<div>
+			<spring:message code="label.toLocale" var="toLocale"></spring:message>
+			<h3>
+				<spring:message code="label.to" />
+				<a href="?locale=${toLocale}" class="btn btn-success">${toLocale.toUpperCase()}</a>
+			</h3>
+		</div>
+
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<form id="logoutForm" method="POST" action="${contextPath}/logout">
 				<input type="hidden" name="${_csrf.parameterName}"
@@ -34,10 +42,11 @@
 			</form>
 
 			<h2>
-				Welcome ${pageContext.request.userPrincipal.name} | <a
+				<spring:message code="label.welcome" />
+				${pageContext.request.userPrincipal.name} | <a
 					onclick="document.forms['logoutForm'].submit()">Logout</a>
 			</h2>
-			
+
 			<h2>
 				<a class="btn btn-default" href="roles">Roles</a>
 			</h2>
