@@ -76,7 +76,7 @@ $ mvn package
 * control user's role
 
 ## Others
-* e.g import data using CSV (need to set `auto_increment` manually)
+* fyi: import data using CSV (need to set `auto_increment` manually)
 ```
 $ mysqlimport --ignore-lines=1 --fields-terminated-by=, --local -u "user_name" -p "db_name" databases/user_account.csv
 ```
