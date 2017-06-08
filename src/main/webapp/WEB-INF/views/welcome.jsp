@@ -13,6 +13,11 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<meta name="_csrf" content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<!-- ... -->
+
 <title>Welcome</title>
 
 <link href="${contextPath}/resources/css/bootstrap.min.css"
@@ -58,14 +63,22 @@
 		<br>
 		<div>
 			<h2>Test Restful API</h2>
-			<button id="test-get" type="button" class="btn btn-primary btn-lg">Test
-				Get</button>
-			<button id="test-post" type="button" class="btn btn-success btn-lg">Test
-				Post</button>
+			<button id="test-get" type="button" class="btn btn-primary btn-lg">greeting
+				[GET]</button>
+			<button id="test-post" type="button" class="btn btn-success btn-lg">get user by ID(1) 
+				[POST]</button>
+			<button id="send-mail" type="button" class="btn btn-warning btn-lg">invoke send mail
+				Send Mail [POST]</button>
 		</div>
 		<script>
-			function alertMsg(url, msg) {
-				alert("Url: " + url + ", Data Back: " + JSON.stringify(msg));
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+			function alertMsg(url, msg, isError) {
+				alert((isError ? "Error!! " : "") + "Url: " + url
+						+ ", Data Back: " + JSON.stringify(msg));
 			}
 			$(document).ready(function() {
 				$("#test-get").click(function() {
@@ -78,16 +91,35 @@
 					});
 				});
 				$("#test-post").click(function() {
-					var url = "rest-api/posting";
+					var url = "rest-api/get-user";
 					$.ajax({
 						method : "POST",
+						contentType : "application/json",
 						url : url,
-						data : {
-							name : "username",
-							email : "username@mail.local"
-						}
+						data : JSON.stringify({
+							id : 1
+						}),
+						dataType : 'json',
+						timeout : 100000,
 					}).done(function(msg) {
 						alertMsg(url, msg);
+					});
+				});
+				$("#send-mail").click(function() {
+					var url = "rest-api/send-mail";
+					$.ajax({
+						method : "POST",
+						contentType : "application/json",
+						url : url,
+						data : JSON.stringify({
+							message : "Rest with POST to send mail success!"
+						}),
+						dataType : 'json',
+						timeout : 100000,
+					}).done(function(msg) {
+						alertMsg(url, msg);
+					}).fail(function(msg) {
+						alertMsg(url, msg, true);
 					});
 				});
 			});

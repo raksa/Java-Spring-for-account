@@ -76,8 +76,16 @@ $ mvn package
 * control user's role
 
 ## Others
+* fyi: test mail by using [hMailServer](https://www.hmailserver.com/) => create domaim `mail.local` => create users `sender` and `receiver`
 * fyi: import data using CSV (need to set `auto_increment` manually)
 ```
 $ mysqlimport --ignore-lines=1 --fields-terminated-by=, --local -u "user_name" -p "db_name" databases/user_account.csv
 ```
 * welcome for any help
+
+## Screenshot
+![login.PNG](https://raw.githubusercontent.com/raksa/account/master/screenshots/login.PNG)
+
+![welcome.PNG](https://raw.githubusercontent.com/raksa/account/master/screenshots/welcome.PNG)
+
+![sent-mail.PNG](https://raw.githubusercontent.com/raksa/account/master/screenshots/sent-mail.PNG)

@@ -5,7 +5,17 @@
 		http://www.springframework.org/schema/beans
  		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<!-- Use the HibernateAware mapper instead of the default -->
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="net.k4us.account.mapper.HibernateAwareObjectMapper" />
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
@@ -42,4 +52,5 @@
 			<property name="paramName" value="locale" />
 		</bean>
 	</mvc:interceptors>
+
 </beans>
