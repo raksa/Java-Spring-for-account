@@ -121,7 +121,7 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>trasis</id>
+			<id>travis</id>
 			<build>
 				<plugins>
 					<plugin>
