@@ -11,8 +11,6 @@ import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -43,7 +41,7 @@ public class ApplicationMailerTest {
 	String mailReceiverEmail;
 
 	@Autowired
-	private MailSender mailSender;
+	private ApplicationMailer applicationMailer;
 
 	@Before
 	public void testSmtpInit() {
@@ -57,11 +55,7 @@ public class ApplicationMailerTest {
 		String subject = "Hi There!!";
 		String body = "How are you?";
 
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(mailReceiverEmail);
-		message.setSubject(subject);
-		message.setText(body);
-		mailSender.send(message);
+		applicationMailer.sendMail(mailReceiverEmail, subject, body);
 
 		Message[] messages = testSmtp.getReceivedMessages();
 		Assert.assertEquals(1, messages.length);
