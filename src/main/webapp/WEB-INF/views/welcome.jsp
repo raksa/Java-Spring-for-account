@@ -68,7 +68,7 @@
 			<button id="test-post" type="button" class="btn btn-success btn-lg">get user by ID(1) 
 				[POST]</button>
 			<button id="send-mail" type="button" class="btn btn-warning btn-lg">invoke send mail
-				Send Mail [POST]</button>
+				[POST]</button>
 		</div>
 		<script>
 			var token = $("meta[name='_csrf']").attr("content");

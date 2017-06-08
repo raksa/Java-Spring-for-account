@@ -83,7 +83,7 @@ $ mysqlimport --ignore-lines=1 --fields-terminated-by=, --local -u "user_name" -
 ```
 * welcome for any help
 
-## Screenshot
+## Screenshots
 ![login.PNG](https://raw.githubusercontent.com/raksa/account/master/screenshots/login.PNG)
 
 ![welcome.PNG](https://raw.githubusercontent.com/raksa/account/master/screenshots/welcome.PNG)
