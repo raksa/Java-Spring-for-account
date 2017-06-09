@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.k4us.account.model.Role;
 import net.k4us.account.service.RoleService;
@@ -42,7 +44,7 @@ public class RoleController {
 	}
 
 	@RequestMapping(value = "role/add", method = RequestMethod.POST)
-	public String registration(@ModelAttribute("roleForm") Role roleForm, BindingResult bindingResult, Model model) {
+	public String add(@ModelAttribute("roleForm") Role roleForm, BindingResult bindingResult, Model model) {
 		roleValidator.validate(roleForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {
@@ -52,5 +54,28 @@ public class RoleController {
 		roleService.save(roleForm);
 
 		return "redirect:/roles";
+	}
+
+	@RequestMapping(value = "role/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public DeleteResData delete(@RequestBody DeleteReqData data) {
+		// TODO: implement delete
+		return new DeleteResData(data.id, "200", "not implement yet!");
+	}
+}
+
+class DeleteReqData {
+	public int id;
+}
+
+class DeleteResData {
+	public int id;
+	public String code;
+	public String msg;
+
+	public DeleteResData(int id, String code, String msg) {
+		this.id = id;
+		this.code = code;
+		this.msg = msg;
 	}
 }

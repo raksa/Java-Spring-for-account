@@ -12,6 +12,10 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<meta name="_csrf" content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+
 <title>Roles</title>
 
 <link href="${contextPath}/resources/css/bootstrap.min.css"
@@ -37,6 +41,11 @@
 					<tr>
 						<td>${role.id}</td>
 						<td><a href="role/${role.id}">${role.name}</a></td>
+						<!-- TODO: implement edit -->
+						<td><a class="btn btn-mini btn-primary" href="#">Edit</a></td>
+						<td><a href="#" class="btn btn-mini btn-danger" role="button"
+							data-toggle="modal" data-target="#confirm-delete"
+							data-id="${role.id}">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -48,5 +57,53 @@
 
 	</div>
 	<!-- /container -->
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">Confirm Delete</div>
+				<div class="modal-body">
+					Delete role with id <span class="des-id"></span>?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-danger btn-ok">Delete</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		});
+		$("#confirm-delete").on("show.bs.modal", function(e) {
+			var id = $(e.relatedTarget).data('id');
+			$(this).find('.des-id').text(id);
+			$(this).find('.btn-ok').data('id', id);
+		});
+		$('#confirm-delete').on('click', '.btn-ok', function(e) {
+			var $modalDiv = $(e.delegateTarget);
+			var id = $(this).data('id');
+			$modalDiv.addClass('loading');
+			$.ajax({
+				method : "POST",
+				contentType : "application/json",
+				url : "role/delete",
+				data : JSON.stringify({
+					id : Number(id)
+				}),
+				dataType : 'json',
+				timeout : 100000,
+			}).done(function(msg) {
+				$modalDiv.modal('hide').removeClass('loading');
+				alert("Return message=> code:" + msg.code + ", msg:" + msg.msg);
+			}).fail(function(msg) {
+				$modalDiv.modal('hide').removeClass('loading');
+				alert("Return message=> fail");
+			});
+		});
+	</script>
 </body>
 </html>

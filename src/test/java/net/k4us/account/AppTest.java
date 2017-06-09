@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.hamcrest.Matchers;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
@@ -37,5 +39,13 @@ public class AppTest {
 	@Test
 	public void root() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	public void restGetGreeting() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest-api/greeting"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.notNullValue()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.notNullValue()));
 	}
 }
